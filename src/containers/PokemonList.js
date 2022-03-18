@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import _ from 'lodash';
 import { getPokemonList } from "../actions/pokemonActions";
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import ReactPaginate from "react-paginate";
 
 const PokemonList = () => {
+    let navigate = useNavigate();
+    const [search, setSearch] = useState('');
     const dispatch = useDispatch();
     const pokemonList = useSelector(state => state.PokemonList);
     useEffect(() => {
@@ -43,9 +47,25 @@ const PokemonList = () => {
         return <p>unable to get data</p>
     };
 
+
+
     return(
         <div>
+            <div className="search-wrapper">
+                <p>Search:</p>
+                <input type="text" onChange={e => setSearch(e.target.value.toLowerCase())}/>
+                <button onClick={() => navigate(`/pokemon/${search}`)}>Search</button>
+            </div>
             {ShowData()}
+            {!_.isEmpty(pokemonList.data) && (
+                <ReactPaginate 
+                    pageCount={Math.ceil(pokemonList.count / 15)}
+                    pageRangeDisplayed={2}
+                    marginPagesDisplayed={1}
+                    onPageChange={(data) => getData(data.selected + 1)}
+                    containerClassName='pagination'
+                />
+            )}
         </div>
     )
 
