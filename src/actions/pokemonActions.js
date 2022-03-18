@@ -20,4 +20,24 @@ export const getPokemonList = (page) => async dispatch => {
             type: 'POKEMON_LIST_FAIL',
         })
     }
-}
+};
+
+export const getPokemon = (pokemon) => async dispatch => {
+    try {
+        dispatch({
+            type: 'POKEMON_MULTIPLE_LOADING',
+        });
+
+        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
+
+        dispatch({
+            type: 'POKEMON_MULTIPLE_SUCCESS',
+            payload: res.data,
+            pokemonName: pokemon,
+        })
+    } catch (error) {
+        dispatch({
+            type: 'POKEMON_MULTIPLE_FAIL',
+        })
+    }
+};

@@ -18,12 +18,18 @@ const PokemonList = () => {
 
     const ShowData = () => {
         if (!_.isEmpty(pokemonList.data)) {
-            return pokemonList.data.map(pokemon => {
-                return <div key={pokemon.name}>
-                    <p>{pokemon.name}</p>
-                    <Link to={`/pokemon/${pokemon.name}`}>View</Link>
+            return(
+                <div className="list-wrapper">
+                    {pokemonList.data.map(pokemon => {
+                        return(
+                            <div className={"pokemon-item"} key={pokemon.name}>
+                            <p>{pokemon.name}</p>
+                            <Link to={`/pokemon/${pokemon.name}`}>View</Link>
+                        </div>
+                        )
+                    })}
                 </div>
-            });
+            )
         }
 
         if (pokemonList.loading) {
